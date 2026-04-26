@@ -92,6 +92,9 @@ function showHelp() {
     demo:secure-channel  🔐 Quantum-Secured Communication Channel
     demo:q-inspired     🧠 Quantum-Inspired Optimization (Scheduling)
     demo:hospital       🏥 Hospital Nurse Scheduling (Visual)
+    demo:coloring       🎨 Graph Coloring (Quantum-Inspired)
+    demo:binning        📊 Optimal Data Binning (Quantum-Inspired)
+    demo:segmentation   🛒 Customer Segmentation (Quantum-Inspired)
 
   Or use npm scripts:
     npm run demo:qrng
@@ -106,6 +109,9 @@ function showHelp() {
     npm run demo:secure-channel
     npm run demo:q-inspired
     npm run demo:hospital
+    npm run demo:coloring
+    npm run demo:binning
+    npm run demo:segmentation
     npm run demo:all
     npm run benchmark          (default: medium)
     npm run benchmark:fast
@@ -164,6 +170,18 @@ switch (command) {
   case 'demo:hospital':
   case 'hospital':
     await import('./demos/hospital-scheduling.js');
+    break;
+  case 'demo:coloring':
+  case 'coloring':
+    await import('./demos/graph-coloring.js');
+    break;
+  case 'demo:binning':
+  case 'binning':
+    await import('./demos/optimal-binning.js');
+    break;
+  case 'demo:segmentation':
+  case 'segmentation':
+    await import('./demos/customer-segmentation.js');
     break;
   default:
     showHelp();

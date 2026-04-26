@@ -329,6 +329,90 @@ import { runDemo } from 'qbit/demos/hospital-scheduling.js';
 runDemo();
 ```
 
+### 13. 🎨 Graph Coloring
+
+**Problem:** Given an undirected graph, assign colors to vertices such that no two adjacent vertices share the same color, using as few colors as possible (the chromatic number). This is NP-hard.
+
+**Quantum solution:** Path Integral Monte Carlo with 20 parallel replicas coupled by a mixing term. The quantum tunneling effect allows the system to escape local minima that trap classical algorithms, finding valid colorings with fewer colors.
+
+**Real-world applications:**
+- **Compiler register allocation:** Graph coloring assigns CPU registers to variables
+- **Radio frequency assignment:** Avoid interference between nearby transmitters
+- **Map coloring:** The famous 4-color theorem applied to cartography
+- **Sudoku solving:** Latin square completion as a constraint satisfaction problem
+- **Exam timetabling:** Scheduling exams without conflicts
+- **Pattern matching:** Computational biology and network analysis
+
+```js
+import { generateGraph, greedyColoring, simulatedAnnealingColoring, quantumInspiredColoring } from 'qbit/demos/graph-coloring.js';
+
+// Generate a random graph (12 vertices, 50% edge density)
+const graph = generateGraph(12, 0.5);
+
+// Compare approaches with 3 colors
+const greedy = greedyColoring(12, graph.adjacency, 3);
+const sa = simulatedAnnealingColoring(12, graph.adjacency, 3);
+const qi = quantumInspiredColoring(12, graph.adjacency, 3, { numReplicas: 20, maxIterations: 30000 });
+
+console.log(`Greedy conflicts: ${/* ... */}, SA: ${/* ... */}, QI: ${/* ... */}`);
+```
+
+### 14. 📊 Optimal Data Binning (Jenks Natural Breaks)
+
+**Problem:** Given N quantitative data points, partition them into K bins to minimize within-bin variance (sum of squared errors from each bin's mean). This is 1D k-means clustering, also known as "Jenks natural breaks optimization" — NP-hard for K > 2.
+
+**Quantum solution:** Path Integral Monte Carlo with 24 parallel replicas. The quantum mixing term encourages replicas to agree on boundary positions, enabling the system to tunnel through cost barriers that trap classical SA.
+
+**Real-world applications:**
+- **Histogram visualization:** Choosing optimal bin boundaries for data display
+- **Customer segmentation:** Grouping customers by spending patterns into tiers
+- **Risk assessment:** Binning credit scores into risk tiers (FICO, etc.)
+- **Image quantization:** Reducing color depth while preserving visual quality
+- **Geographic choropleth maps:** Grouping regions by statistical measures
+- **Bioinformatics:** Gene expression binning for analysis
+- **Market basket analysis:** Price range segmentation
+
+```js
+import { generateData, greedyBinning, simulatedAnnealingBinning, quantumInspiredBinning } from 'qbit/demos/optimal-binning.js';
+
+// Generate data with 3 overlapping clusters, 300 points
+const data = generateData(300, 3);
+
+// Compare approaches with 10 bins
+const greedy = greedyBinning(data, 10);
+const sa = simulatedAnnealingBinning(data, 10);
+const qi = quantumInspiredBinning(data, 10, { numReplicas: 24, maxIterations: 30000 });
+
+console.log(`Greedy score: ${/* ... */}, SA: ${/* ... */}, QI: ${/* ... */}`);
+```
+
+### 15. 🛒 Customer Segmentation (Quantum-Inspired Marketing)
+
+**Problem:** A retail company has 500 customers with known annual spending amounts. They want to segment customers into spending tiers (Bronze, Silver, Gold, Platinum, Diamond) for targeted marketing campaigns. The goal: assign customers to tiers such that customers within each tier have SIMILAR spending (low within-tier variance), making campaigns more effective.
+
+**Quantum solution:** Path Integral Monte Carlo with 24 parallel replicas. The quantum mixing term creates an effective transverse field that allows the system to tunnel through barriers in the cost landscape, finding tier boundaries that better capture natural spending segments.
+
+**Real-world applications:**
+- **Targeted marketing:** Segmented campaigns have 3-5x higher conversion rates
+- **Revenue optimization:** Targeted campaigns cost 60% less than mass marketing
+- **Customer loyalty:** Tier-based rewards programs (airline status, hotel tiers)
+- **Dynamic pricing:** Segment-based pricing optimization
+- **Any k-means clustering problem:** The same quantum-inspired techniques apply universally
+
+```js
+import { generateCustomerData, greedySegmentation, simulatedAnnealingSegmentation, quantumInspiredSegmentation } from 'qbit/demos/customer-segmentation.js';
+
+// Generate 500 customers with 4 overlapping spending segments
+const data = generateCustomerData(500, 4);
+
+// Compare approaches with 7 tiers
+const greedy = greedySegmentation(data, 7);
+const sa = simulatedAnnealingSegmentation(data, 7);
+const qi = quantumInspiredSegmentation(data, 7, { numReplicas: 24, maxIterations: 30000 });
+
+console.log(`Greedy score: ${/* ... */}, SA: ${/* ... */}, QI: ${/* ... */}`);
+```
+
 ## Getting Started
 
 ```bash
@@ -352,6 +436,9 @@ npm run demo:superdense
 npm run demo:secure-channel
 npm run demo:q-inspired
 npm run demo:hospital
+npm run demo:coloring
+npm run demo:binning
+npm run demo:segmentation
 ```
 
 ## Project Structure
@@ -374,6 +461,9 @@ qbit/
 │   │   ├── quantum-secure-channel.js           # 🔐 Integrated secure communication demo
 │   │   ├── quantum-inspired-optimization.js    # 🧠 Quantum-inspired optimization (scheduling)
 │   │   ├── hospital-scheduling.js              # 🏥 Hospital nurse scheduling (visual)
+│   │   ├── graph-coloring.js                   # 🎨 Graph coloring (quantum-inspired)
+│   │   ├── optimal-binning.js                  # 📊 Optimal data binning (quantum-inspired)
+│   │   ├── customer-segmentation.js            # 🛒 Customer segmentation (quantum-inspired)
 │   │   └── run-all.js                          # Run all demos
 │   └── index.js              # Library entry point + CLI
 ├── package.json
@@ -489,6 +579,67 @@ qbit/
 | `maxIterations` | `number` | `3000` | Annealing steps |
 | `initialMixing` | `number` | `2.0` | Initial transverse field strength |
 | `finalMixing` | `number` | `0.01` | Final transverse field strength |
+
+### Graph Coloring
+
+| Function | Description |
+|----------|-------------|
+| [`generateGraph(numVertices, edgeProbability)`](src/demos/graph-coloring.js:51) | Generate a random Erdos-Renyi graph |
+| [`evaluateColoring(coloring, adjacency, numColors)`](src/demos/graph-coloring.js:79) | Evaluate a coloring (conflicts, colors used, score) |
+| [`greedyColoring(numVertices, adjacency, maxColors)`](src/demos/graph-coloring.js:196) | Welsh-Powell greedy heuristic (baseline) |
+| [`simulatedAnnealingColoring(numVertices, adjacency, maxColors, opts)`](src/demos/graph-coloring.js:233) | Classical simulated annealing |
+| [`quantumInspiredColoring(numVertices, adjacency, maxColors, opts)`](src/demos/graph-coloring.js:298) | Path Integral Monte Carlo (quantum-inspired) |
+| [`renderGraph(coloring, adjacency, title)`](src/demos/graph-coloring.js:117) | Render graph as colored adjacency matrix |
+| [`runTrials(numVertices, edgeProb, maxColors, numTrials)`](src/demos/graph-coloring.js:437) | Multi-trial statistical comparison |
+
+**Options for `quantumInspiredColoring`:**
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `numReplicas` | `number` | `20` | Number of Trotter slices (path integral replicas) |
+| `maxIterations` | `number` | `30000` | Annealing steps |
+| `initialMixing` | `number` | `800.0` | Initial transverse field strength |
+| `finalMixing` | `number` | `10.0` | Final transverse field strength |
+
+### Optimal Data Binning
+
+| Function | Description |
+|----------|-------------|
+| [`generateData(numPoints, numClusters)`](src/demos/optimal-binning.js:39) | Generate multi-modal quantitative data with clusters |
+| [`evaluateBinning(data, boundaries, numBins)`](src/demos/optimal-binning.js:95) | Evaluate a binning (within-bin variance, score) |
+| [`greedyBinning(data, numBins)`](src/demos/optimal-binning.js:284) | Equal-width binning (baseline) |
+| [`simulatedAnnealingBinning(data, numBins, opts)`](src/demos/optimal-binning.js:309) | Classical simulated annealing |
+| [`quantumInspiredBinning(data, numBins, opts)`](src/demos/optimal-binning.js:371) | Path Integral Monte Carlo (quantum-inspired) |
+| [`renderHistogram(data, boundaries, numBins, title)`](src/demos/optimal-binning.js:175) | Render histogram with colored bins |
+| [`runTrials(numPoints, numClusters, numBins, numTrials)`](src/demos/optimal-binning.js:501) | Multi-trial statistical comparison |
+
+**Options for `quantumInspiredBinning`:**
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `numReplicas` | `number` | `24` | Number of Trotter slices (path integral replicas) |
+| `maxIterations` | `number` | `30000` | Annealing steps |
+| `initialMixing` | `number` | `500.0` | Initial transverse field strength |
+| `finalMixing` | `number` | `5.0` | Final transverse field strength |
+
+### Customer Segmentation
+
+| Function | Description |
+|----------|-------------|
+| [`generateCustomerData(numCustomers, numSegments)`](src/demos/customer-segmentation.js:39) | Generate realistic customer spending data |
+| [`evaluateSegmentation(data, boundaries, numTiers)`](src/demos/customer-segmentation.js:96) | Evaluate a segmentation (within-tier variance, score) |
+| [`greedySegmentation(data, numTiers)`](src/demos/customer-segmentation.js:399) | Equal-width tier segmentation (baseline) |
+| [`simulatedAnnealingSegmentation(data, numTiers, opts)`](src/demos/customer-segmentation.js:423) | Classical simulated annealing |
+| [`quantumInspiredSegmentation(data, numTiers, opts)`](src/demos/customer-segmentation.js:478) | Path Integral Monte Carlo (quantum-inspired) |
+| [`renderSegmentation(data, boundaries, numTiers, title)`](src/demos/customer-segmentation.js:181) | Render histogram with colored tiers |
+| [`estimateRevenueImpact(evalResult, totalCustomers)`](src/demos/customer-segmentation.js:320) | Estimate revenue impact of segmentation |
+| [`runTrials(numCustomers, numSegments, numTiers, numTrials)`](src/demos/customer-segmentation.js:602) | Multi-trial statistical comparison |
+
+**Options for `quantumInspiredSegmentation`:**
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `numReplicas` | `number` | `24` | Number of Trotter slices (path integral replicas) |
+| `maxIterations` | `number` | `30000` | Annealing steps |
+| `initialMixing` | `number` | `500.0` | Initial transverse field strength |
+| `finalMixing` | `number` | `5.0` | Final transverse field strength |
 
 ## Limitations & Next Steps
 
