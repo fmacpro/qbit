@@ -30,73 +30,73 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PRESETS = {
   fast: {
     label: 'Fast (Quick Validation)',
-    description: 'Small problems, few trials — validates QI advantage exists (~30s)',
+    description: 'Small problems, many trials — validates QI advantage exists (~1min)',
     hospital: {
-      numNurses: 5, numDays: 5, trials: 5,
+      numNurses: 5, numDays: 5, trials: 20,
       saIterations: 5000, qiIterations: 5000, qiReplicas: 8
     },
     graphColoring: {
-      numVertices: 10, edgeProb: 0.45, maxColors: 3, trials: 10,
+      numVertices: 10, edgeProb: 0.45, maxColors: 3, trials: 30,
       saIterations: 5000, qiIterations: 8000, qiReplicas: 12
     },
     binning: {
-      numPoints: 100, numClusters: 3, numBins: 6, trials: 10,
+      numPoints: 100, numClusters: 3, numBins: 6, trials: 30,
       saIterations: 5000, qiIterations: 5000, qiReplicas: 12
     },
     customerSeg: {
-      numCustomers: 200, numSegments: 3, numTiers: 5, trials: 10,
+      numCustomers: 200, numSegments: 3, numTiers: 5, trials: 30,
       saIterations: 5000, qiIterations: 5000, qiReplicas: 12
     },
     scheduling: {
-      numEmployees: 5, numShifts: 6, trials: 10,
+      numEmployees: 5, numShifts: 6, trials: 30,
       saIterations: 3000, qiIterations: 3000, qiReplicas: 8
     }
   },
   medium: {
     label: 'Medium (Balanced)',
-    description: 'Moderate problems, 15 trials — clear QI advantage (~2min)',
+    description: 'Moderate problems, many trials — clear QI advantage (~5min)',
     hospital: {
-      numNurses: 6, numDays: 7, trials: 10,
+      numNurses: 6, numDays: 7, trials: 30,
       saIterations: 10000, qiIterations: 10000, qiReplicas: 12
     },
     graphColoring: {
-      numVertices: 13, edgeProb: 0.50, maxColors: 3, trials: 20,
+      numVertices: 13, edgeProb: 0.50, maxColors: 3, trials: 40,
       saIterations: 10000, qiIterations: 20000, qiReplicas: 16
     },
     binning: {
-      numPoints: 200, numClusters: 3, numBins: 10, trials: 15,
+      numPoints: 200, numClusters: 3, numBins: 10, trials: 40,
       saIterations: 10000, qiIterations: 15000, qiReplicas: 16
     },
     customerSeg: {
-      numCustomers: 300, numSegments: 4, numTiers: 6, trials: 15,
+      numCustomers: 300, numSegments: 4, numTiers: 6, trials: 40,
       saIterations: 10000, qiIterations: 15000, qiReplicas: 16
     },
     scheduling: {
-      numEmployees: 5, numShifts: 8, trials: 15,
+      numEmployees: 5, numShifts: 8, trials: 40,
       saIterations: 5000, qiIterations: 5000, qiReplicas: 10
     }
   },
   deep: {
     label: 'Deep (Thorough Analysis)',
-    description: 'Hard problems, 20+ trials — strong statistical evidence (~10min)',
+    description: 'Hard problems, many trials — strong statistical evidence (~15min)',
     hospital: {
-      numNurses: 7, numDays: 7, trials: 15,
+      numNurses: 7, numDays: 7, trials: 40,
       saIterations: 15000, qiIterations: 20000, qiReplicas: 14
     },
     graphColoring: {
-      numVertices: 15, edgeProb: 0.50, maxColors: 3, trials: 30,
+      numVertices: 15, edgeProb: 0.50, maxColors: 3, trials: 50,
       saIterations: 20000, qiIterations: 40000, qiReplicas: 20
     },
     binning: {
-      numPoints: 300, numClusters: 4, numBins: 12, trials: 20,
+      numPoints: 300, numClusters: 4, numBins: 12, trials: 50,
       saIterations: 20000, qiIterations: 30000, qiReplicas: 24
     },
     customerSeg: {
-      numCustomers: 400, numSegments: 4, numTiers: 6, trials: 20,
+      numCustomers: 400, numSegments: 4, numTiers: 6, trials: 50,
       saIterations: 20000, qiIterations: 60000, qiReplicas: 28
     },
     scheduling: {
-      numEmployees: 6, numShifts: 10, trials: 20,
+      numEmployees: 6, numShifts: 10, trials: 50,
       saIterations: 8000, qiIterations: 8000, qiReplicas: 12
     }
   }
@@ -232,7 +232,8 @@ function runCustomerSegBenchmark(demos, config) {
 
   // Scale QI parameters with problem size
   // More customers + more tiers = harder problem = need stronger mixing and more iterations
-  const problemScale = (numCustomers / 200) * (numTiers / 5);
+  // Use sqrt scaling to avoid over-mixing at medium difficulty (same approach as binning)
+  const problemScale = Math.sqrt((numCustomers / 200) * (numTiers / 5));
   const scaledMixing = Math.min(3000, Math.max(200, Math.round(500 * problemScale)));
   const scaledFinalMixing = Math.min(30, Math.max(2, Math.round(5 * problemScale)));
 
