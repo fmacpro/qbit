@@ -32,23 +32,23 @@ const PRESETS = {
     label: 'Fast (Quick Validation)',
     description: 'Small problems, many trials — validates QI advantage exists (~1min)',
     hospital: {
-      numNurses: 5, numDays: 5, trials: 20,
-      saIterations: 5000, qiIterations: 5000, qiReplicas: 8
+      numNurses: 5, numDays: 5, trials: 100,
+      saIterations: 1000, qiIterations: 5000, qiReplicas: 8
     },
     graphColoring: {
-      numVertices: 10, edgeProb: 0.45, maxColors: 3, trials: 30,
-      saIterations: 5000, qiIterations: 8000, qiReplicas: 12
+      numVertices: 10, edgeProb: 0.45, maxColors: 3, trials: 100,
+      saIterations: 3000, qiIterations: 8000, qiReplicas: 12
     },
     binning: {
-      numPoints: 100, numClusters: 3, numBins: 6, trials: 30,
+      numPoints: 100, numClusters: 3, numBins: 6, trials: 100,
       saIterations: 5000, qiIterations: 5000, qiReplicas: 12
     },
     customerSeg: {
-      numCustomers: 200, numSegments: 3, numTiers: 5, trials: 30,
+      numCustomers: 200, numSegments: 3, numTiers: 5, trials: 100,
       saIterations: 5000, qiIterations: 5000, qiReplicas: 12
     },
     scheduling: {
-      numEmployees: 5, numShifts: 6, trials: 30,
+      numEmployees: 5, numShifts: 6, trials: 100,
       saIterations: 3000, qiIterations: 3000, qiReplicas: 8
     }
   },
@@ -56,23 +56,23 @@ const PRESETS = {
     label: 'Medium (Balanced)',
     description: 'Moderate problems, many trials — clear QI advantage (~5min)',
     hospital: {
-      numNurses: 6, numDays: 7, trials: 30,
+      numNurses: 6, numDays: 7, trials: 100,
       saIterations: 10000, qiIterations: 10000, qiReplicas: 12
     },
     graphColoring: {
-      numVertices: 13, edgeProb: 0.50, maxColors: 3, trials: 40,
+      numVertices: 14, edgeProb: 0.50, maxColors: 3, trials: 100,
       saIterations: 10000, qiIterations: 20000, qiReplicas: 16
     },
     binning: {
-      numPoints: 200, numClusters: 3, numBins: 10, trials: 40,
+      numPoints: 250, numClusters: 3, numBins: 10, trials: 100,
       saIterations: 10000, qiIterations: 15000, qiReplicas: 16
     },
     customerSeg: {
-      numCustomers: 300, numSegments: 4, numTiers: 6, trials: 40,
+      numCustomers: 350, numSegments: 4, numTiers: 6, trials: 100,
       saIterations: 10000, qiIterations: 15000, qiReplicas: 16
     },
     scheduling: {
-      numEmployees: 5, numShifts: 8, trials: 40,
+      numEmployees: 6, numShifts: 8, trials: 100,
       saIterations: 5000, qiIterations: 5000, qiReplicas: 10
     }
   },
@@ -80,24 +80,24 @@ const PRESETS = {
     label: 'Deep (Thorough Analysis)',
     description: 'Hard problems, many trials — strong statistical evidence (~15min)',
     hospital: {
-      numNurses: 7, numDays: 7, trials: 40,
-      saIterations: 15000, qiIterations: 20000, qiReplicas: 14
+      numNurses: 8, numDays: 7, trials: 100,
+      saIterations: 20000, qiIterations: 30000, qiReplicas: 16
     },
     graphColoring: {
-      numVertices: 15, edgeProb: 0.50, maxColors: 3, trials: 50,
-      saIterations: 20000, qiIterations: 40000, qiReplicas: 20
+      numVertices: 17, edgeProb: 0.50, maxColors: 3, trials: 100,
+      saIterations: 30000, qiIterations: 60000, qiReplicas: 24
     },
     binning: {
-      numPoints: 300, numClusters: 4, numBins: 12, trials: 50,
-      saIterations: 20000, qiIterations: 30000, qiReplicas: 24
+      numPoints: 400, numClusters: 4, numBins: 14, trials: 100,
+      saIterations: 30000, qiIterations: 50000, qiReplicas: 28
     },
     customerSeg: {
-      numCustomers: 400, numSegments: 4, numTiers: 6, trials: 50,
-      saIterations: 20000, qiIterations: 60000, qiReplicas: 28
+      numCustomers: 500, numSegments: 5, numTiers: 7, trials: 100,
+      saIterations: 30000, qiIterations: 80000, qiReplicas: 32
     },
     scheduling: {
-      numEmployees: 6, numShifts: 10, trials: 50,
-      saIterations: 8000, qiIterations: 8000, qiReplicas: 12
+      numEmployees: 7, numShifts: 12, trials: 100,
+      saIterations: 10000, qiIterations: 10000, qiReplicas: 14
     }
   }
 };
@@ -135,6 +135,13 @@ function runHospitalBenchmark(demos, config) {
   const { generateHospitalProblem, greedySchedule, simulatedAnnealing, quantumInspiredSchedule, evaluateSchedule } = demos.hospital;
   const numShifts = numDays * 3;
 
+  // Scale QI mixing parameters with problem size
+  // More nurses + more days = harder problem = need stronger mixing
+  // Use sqrt scaling to avoid over-mixing at medium difficulty
+  const problemScale = Math.sqrt((numNurses / 5) * (numDays / 5));
+  const scaledMixing = Math.min(100, Math.max(5, Math.round(20 * problemScale)));
+  const scaledFinalMixing = Math.min(5, Math.max(0.1, Math.round(0.5 * problemScale * 10) / 10));
+
   const greedyScores = [];
   const saScores = [];
   const qiScores = [];
@@ -150,7 +157,7 @@ function runHospitalBenchmark(demos, config) {
     const saEval = evaluateSchedule(saResult, numNurses, numDays, prob.costs);
     saScores.push(saEval.score);
 
-    const qiResult = quantumInspiredSchedule(numNurses, numShifts, prob.costs, { numReplicas: qiReplicas, maxIterations: qiIterations, initialMixing: 20.0, finalMixing: 0.5 });
+    const qiResult = quantumInspiredSchedule(numNurses, numShifts, prob.costs, { numReplicas: qiReplicas, maxIterations: qiIterations, initialMixing: scaledMixing, finalMixing: scaledFinalMixing });
     const qiEval = evaluateSchedule(qiResult, numNurses, numDays, prob.costs);
     qiScores.push(qiEval.score);
   }
@@ -161,6 +168,13 @@ function runHospitalBenchmark(demos, config) {
 function runGraphColoringBenchmark(demos, config) {
   const { numVertices, edgeProb, maxColors, trials, saIterations, qiIterations, qiReplicas } = config;
   const { generateGraph, greedyColoring, simulatedAnnealingColoring, quantumInspiredColoring, evaluateColoring } = demos.graphColoring;
+
+  // Scale QI mixing parameters with problem size
+  // More vertices = harder problem = need stronger mixing
+  // Use sqrt scaling to avoid over-mixing at medium difficulty
+  const problemScale = Math.sqrt(numVertices / 10);
+  const scaledMixing = Math.min(3000, Math.max(100, Math.round(500 * problemScale)));
+  const scaledFinalMixing = Math.min(50, Math.max(1, Math.round(5 * problemScale)));
 
   const greedyScores = [];
   const saScores = [];
@@ -177,7 +191,7 @@ function runGraphColoringBenchmark(demos, config) {
     const saEval = evaluateColoring(saResult, graph.adjacency, maxColors);
     saScores.push(saEval.score);
 
-    const qiResult = quantumInspiredColoring(numVertices, graph.adjacency, maxColors, { numReplicas: qiReplicas, maxIterations: qiIterations, initialMixing: 800.0, finalMixing: 10.0 });
+    const qiResult = quantumInspiredColoring(numVertices, graph.adjacency, maxColors, { numReplicas: qiReplicas, maxIterations: qiIterations, initialMixing: scaledMixing, finalMixing: scaledFinalMixing });
     const qiEval = evaluateColoring(qiResult, graph.adjacency, maxColors);
     qiScores.push(qiEval.score);
   }
@@ -232,10 +246,12 @@ function runCustomerSegBenchmark(demos, config) {
 
   // Scale QI parameters with problem size
   // More customers + more tiers = harder problem = need stronger mixing and more iterations
-  // Use sqrt scaling to avoid over-mixing at medium difficulty (same approach as binning)
+  // Use sqrt scaling with higher base for wider spread — Customer Segmentation has
+  // very large score magnitudes (~10^8), so QI needs proportionally stronger mixing
+  // at higher difficulties to maintain its advantage over SA.
   const problemScale = Math.sqrt((numCustomers / 200) * (numTiers / 5));
-  const scaledMixing = Math.min(3000, Math.max(200, Math.round(500 * problemScale)));
-  const scaledFinalMixing = Math.min(30, Math.max(2, Math.round(5 * problemScale)));
+  const scaledMixing = Math.min(5000, Math.max(200, Math.round(1000 * problemScale)));
+  const scaledFinalMixing = Math.min(50, Math.max(2, Math.round(10 * problemScale)));
 
   for (let t = 0; t < trials; t++) {
     const data = generateCustomerData(numCustomers, numSegments);
@@ -272,6 +288,13 @@ function runSchedulingBenchmark(demos, config) {
   const { numEmployees, numShifts, trials, saIterations, qiIterations, qiReplicas } = config;
   const { generateSchedulingProblem, greedySchedule, simulatedAnnealing, quantumInspiredSchedule } = demos.scheduling;
 
+  // Scale QI mixing parameters with problem size
+  // More employees + more shifts = harder problem = need stronger mixing
+  // Use sqrt scaling to avoid over-mixing at medium difficulty
+  const problemScale = Math.sqrt((numEmployees / 5) * (numShifts / 6));
+  const scaledMixing = Math.min(20, Math.max(0.5, Math.round(3 * problemScale * 10) / 10));
+  const scaledFinalMixing = Math.min(1, Math.max(0.01, Math.round(0.02 * problemScale * 100) / 100));
+
   const greedyScores = [];
   const saScores = [];
   const qiScores = [];
@@ -285,7 +308,7 @@ function runSchedulingBenchmark(demos, config) {
     const saResult = simulatedAnnealing(numEmployees, numShifts, prob.costs, { maxIterations: saIterations, initialTemp: 10, coolingRate: 0.995 });
     saScores.push(saResult.cost);
 
-    const qiResult = quantumInspiredSchedule(numEmployees, numShifts, prob.costs, { numReplicas: qiReplicas, maxIterations: qiIterations, initialMixing: 2.0, finalMixing: 0.01 });
+    const qiResult = quantumInspiredSchedule(numEmployees, numShifts, prob.costs, { numReplicas: qiReplicas, maxIterations: qiIterations, initialMixing: scaledMixing, finalMixing: scaledFinalMixing });
     qiScores.push(qiResult.cost);
   }
 
