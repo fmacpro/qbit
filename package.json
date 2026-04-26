@@ -1,0 +1,42 @@
+{
+  "name": "qbit",
+  "version": "1.0.0",
+  "description": "Practical Node.js quantum simulation library with real-world use cases",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "demo:qrng": "node src/demos/quantum-random.js",
+    "demo:grover": "node src/demos/grovers-search.js",
+    "demo:bb84": "node src/demos/quantum-key-distribution.js",
+    "demo:qaoa": "node src/demos/qaoa-optimization.js",
+    "demo:error-correction": "node src/demos/error-correction.js",
+    "demo:teleportation": "node src/demos/quantum-teleportation.js",
+    "demo:deutsch-jozsa": "node src/demos/deutsch-jozsa.js",
+    "demo:fingerprinting": "node src/demos/quantum-fingerprinting.js",
+    "demo:superdense": "node src/demos/superdense-coding.js",
+    "demo:secure-channel": "node src/demos/quantum-secure-channel.js",
+    "demo:q-inspired": "node src/demos/quantum-inspired-optimization.js",
+    "demo:hospital": "node src/demos/hospital-scheduling.js",
+    "demo:coloring": "node src/demos/graph-coloring.js",
+    "demo:binning": "node src/demos/optimal-binning.js",
+    "demo:segmentation": "node src/demos/customer-segmentation.js",
+    "demo:all": "node src/demos/run-all.js",
+    "benchmark": "node src/benchmark.js",
+    "benchmark:fast": "node src/benchmark.js fast",
+    "benchmark:medium": "node src/benchmark.js medium",
+    "benchmark:deep": "node src/benchmark.js deep",
+    "benchmark:all": "node src/benchmark.js all"
+  },
+  "keywords": [
+    "quantum",
+    "simulation",
+    "quantum-computing",
+    "qubit",
+    "grover",
+    "bb84",
+    "qaoa",
+    "quantum-random"
+  ],
+  "license": "MIT"
+}
