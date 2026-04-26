@@ -632,9 +632,24 @@ function generateCombinedMarkdown(allResults, elapsedMs) {
   const deepTotals = computeLevelTotals(allResults.deep);
 
   function scalingTrend(qiImprFast, qiImprMed, qiImprDeep) {
-    if (qiImprDeep > qiImprMed && qiImprMed > qiImprFast) return '📈 Increasing';
-    if (qiImprDeep > qiImprMed || qiImprMed > qiImprFast) return '📈 Mostly increasing';
-    if (qiImprDeep < qiImprMed && qiImprMed < qiImprFast) return '📉 Decreasing';
+    // Only consider comparisons where both values are non-zero (i.e., QI actually beat SA)
+    // A value of 0 means QI tied or lost to SA at that difficulty level.
+    const f = qiImprFast;
+    const m = qiImprMed;
+    const d = qiImprDeep;
+
+    // Check monotonic increasing: each level > previous (only if both are non-zero)
+    const incFM = f > 0 && m > 0 && m > f;
+    const incMD = m > 0 && d > 0 && d > m;
+    if (incFM && incMD) return '📈 Increasing';
+    if (incFM || incMD) return '📈 Mostly increasing';
+
+    // Check monotonic decreasing: each level < previous (only if both are non-zero)
+    const decFM = f > 0 && m > 0 && m < f;
+    const decMD = m > 0 && d > 0 && d < m;
+    if (decFM && decMD) return '📉 Decreasing';
+    if (decFM || decMD) return '📉 Mostly decreasing';
+
     return '➡️ Stable';
   }
 
@@ -912,9 +927,24 @@ async function main() {
       return count > 0 ? (total / count).toFixed(1) : '0.0';
     }
     function scalingTrend(qiImprFast, qiImprMed, qiImprDeep) {
-      if (qiImprDeep > qiImprMed && qiImprMed > qiImprFast) return '📈 Increasing';
-      if (qiImprDeep > qiImprMed || qiImprMed > qiImprFast) return '📈 Mostly increasing';
-      if (qiImprDeep < qiImprMed && qiImprMed < qiImprFast) return '📉 Decreasing';
+      // Only consider comparisons where both values are non-zero (i.e., QI actually beat SA)
+      // A value of 0 means QI tied or lost to SA at that difficulty level.
+      const f = qiImprFast;
+      const m = qiImprMed;
+      const d = qiImprDeep;
+
+      // Check monotonic increasing: each level > previous (only if both are non-zero)
+      const incFM = f > 0 && m > 0 && m > f;
+      const incMD = m > 0 && d > 0 && d > m;
+      if (incFM && incMD) return '📈 Increasing';
+      if (incFM || incMD) return '📈 Mostly increasing';
+
+      // Check monotonic decreasing: each level < previous (only if both are non-zero)
+      const decFM = f > 0 && m > 0 && m < f;
+      const decMD = m > 0 && d > 0 && d < m;
+      if (decFM && decMD) return '📉 Decreasing';
+      if (decFM || decMD) return '📉 Mostly decreasing';
+
       return '➡️ Stable';
     }
     const fImpr = avgQiVsSA(allResults.fast);
