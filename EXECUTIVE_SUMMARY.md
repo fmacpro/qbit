@@ -23,12 +23,11 @@ The goal is to demonstrate how the **Quantum-Inspired (QI) advantage grows** as 
 
 | Rank | Algorithm | 🟢 Fast Score | 🟡 Medium Score | 🔴 Deep Score | Scaling Trend |
 |------|-----------|--------------|----------------|--------------|---------------|
-
-> **Note:** Scores are normalized (0-1 per problem, then summed) so each problem contributes equally to the total. This prevents problems with large score magnitudes (e.g. Customer Segmentation ~10⁸) from dominating the leaderboard.
-
 | 🥇 1st | 🔵 **Quantum-Inspired** | **4.00** | **5.00** | **5.00** | 📈 Increasing |
 | 🥈 2nd | 🟡 Simulated Annealing | 3.10 | 4.68 | 3.92 | — |
 | 🥉 3rd | 🟢 Greedy | 0.000 | 0.000 | 0.000 | — |
+
+> **Note:** Scores are normalized (0-1 per problem, then summed) so each problem contributes equally to the total. This prevents problems with large score magnitudes (e.g. Customer Segmentation ~10⁸) from dominating the leaderboard.
 
 > **QI Improvement over SA:** 🟢 Fast: 2.7% → 🟡 Medium: 4.9% → 🔴 Deep: 9.6% — 📈 Increasing
 

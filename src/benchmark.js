@@ -607,9 +607,6 @@ function generateCombinedMarkdown(allResults, elapsedMs) {
   lines.push('');
   lines.push('| Rank | Algorithm | 🟢 Fast Score | 🟡 Medium Score | 🔴 Deep Score | Scaling Trend |');
   lines.push('|------|-----------|--------------|----------------|--------------|---------------|');
-  lines.push('');
-  lines.push('> **Note:** Scores are normalized (0-1 per problem, then summed) so each problem contributes equally to the total. This prevents problems with large score magnitudes (e.g. Customer Segmentation ~10⁸) from dominating the leaderboard.');
-  lines.push('');
 
   // Compute total scores per algorithm per level.
   // Each problem contributes equally (0-1 scale) to prevent
@@ -663,6 +660,8 @@ function generateCombinedMarkdown(allResults, elapsedMs) {
   lines.push(`| 🥇 1st | 🔵 **Quantum-Inspired** | **${fmtScore(fastTotals.qi)}** | **${fmtScore(medTotals.qi)}** | **${fmtScore(deepTotals.qi)}** | ${trend} |`);
   lines.push(`| 🥈 2nd | 🟡 Simulated Annealing | ${fmtScore(fastTotals.sa)} | ${fmtScore(medTotals.sa)} | ${fmtScore(deepTotals.sa)} | — |`);
   lines.push(`| 🥉 3rd | 🟢 Greedy | ${fmtScore(fastTotals.greedy)} | ${fmtScore(medTotals.greedy)} | ${fmtScore(deepTotals.greedy)} | — |`);
+  lines.push('');
+  lines.push('> **Note:** Scores are normalized (0-1 per problem, then summed) so each problem contributes equally to the total. This prevents problems with large score magnitudes (e.g. Customer Segmentation ~10⁸) from dominating the leaderboard.');
   lines.push('');
   lines.push(`> **QI Improvement over SA:** 🟢 Fast: ${qiImprFast}% → 🟡 Medium: ${qiImprMed}% → 🔴 Deep: ${qiImprDeep}% — ${trend}`);
   lines.push('');
