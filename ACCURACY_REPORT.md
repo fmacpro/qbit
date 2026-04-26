@@ -74,20 +74,20 @@ This maps a d-dimensional quantum system onto a (d+1)-dimensional classical syst
 ```mermaid
 graph TD
     subgraph "Annealing Schedule"
-        A[mixingStrength = f(progress)]
-        B[temperature = g(progress)]
+        A["mixingStrength = f(progress)"]
+        B["temperature = g(progress)"]
     end
 
     subgraph "Replica Ring (Trotter Slices)"
-        C[Replica 0] <-->|mixing term| D[Replica 1]
-        D <-->|mixing term| E[Replica 2]
-        E <-->|mixing term| F[...]
-        F <-->|mixing term| C
+        C["Replica 0"] <-->|"mixing term"| D["Replica 1"]
+        D <-->|"mixing term"| E["Replica 2"]
+        E <-->|"mixing term"| F["..."]
+        F <-->|"mixing term"| C
     end
 
     subgraph "Replica Exchange"
-        G[Swap configurations<br/>between adjacent replicas]
-        H[Lower-cost replicas<br/>migrate to cold end]
+        G["Swap configurations between adjacent replicas"]
+        H["Lower-cost replicas migrate to cold end"]
     end
 
     A --> C
@@ -146,13 +146,13 @@ graph TD
 ```mermaid
 graph LR
     subgraph "QI Advantage vs Problem Difficulty"
-        A[Easy Problems] -->|Small or no advantage| B[SA ≈ QI]
-        C[Hard Problems] -->|Growing advantage| D[QI > SA]
+        A["Easy Problems"] -->|"Small or no advantage"| B["SA approx QI"]
+        C["Hard Problems"] -->|"Growing advantage"| D["QI greater than SA"]
     end
     
     subgraph "Why?"
-        E[Tall, narrow energy barriers] --> F[SA climbs over = expensive]
-        E --> G[QI tunnels through = efficient]
+        E["Tall, narrow energy barriers"] --> F["SA climbs over = expensive"]
+        E --> G["QI tunnels through = efficient"]
     end
     
     style A fill:#4CAF50
@@ -171,15 +171,15 @@ The project's benchmark problems (scheduling, graph coloring, binning, segmentat
 ```mermaid
 graph TD
     subgraph "Magnitude Comparison"
-        H[QI Advantage]
-        H --> I["This Project: 5-20%"]
-        H --> J["Real D-Wave: 10-1000×<br/>for well-suited problems"]
+        H["QI Advantage"]
+        H --> I["This Project: 5-20 percent"]
+        H --> J["Real D-Wave: 10-1000x for well-suited problems"]
     end
     
     subgraph "Scaling Comparison"
-        K[Trend with Difficulty]
-        K --> L["Both: 📈 Increasing"]
-        K --> M["Real hardware: non-monotonic<br/>due to embedding overhead"]
+        K["Trend with Difficulty"]
+        K --> L["Both: Increasing"]
+        K --> M["Real hardware: non-monotonic due to embedding overhead"]
     end
     
     style I fill:#2196F3
@@ -269,19 +269,19 @@ If the goal is to more faithfully represent real quantum hardware behavior:
 graph TD
     subgraph "Project Architecture"
         A["src/core/quantum.js"] --> B["Gate-based simulator"]
-        C["src/demos/*.js"] --> D["PIMC optimizer"]
+        C["src/demos"] --> D["PIMC optimizer"]
     end
     
     subgraph "Accuracy Assessment"
-        B --> E["✅ Mathematically exact<br/>for ideal quantum circuits"]
-        B --> F["⚠️ No noise/decoherence<br/>= not NISQ-representative"]
-        D --> G["✅ Algorithmically correct<br/>= same as D-Wave hybrid"]
-        D --> H["⚠️ Not hardware simulation<br/>= classical algorithm"]
+        B --> E["Mathematically exact for ideal quantum circuits"]
+        B --> F["No noise or decoherence - not NISQ-representative"]
+        D --> G["Algorithmically correct - same as D-Wave hybrid"]
+        D --> H["Not hardware simulation - classical algorithm"]
     end
     
     subgraph "Bottom Line"
-        I["Good educational tool<br/>for understanding<br/>quantum annealing principles"]
-        J["Not a substitute for<br/>running on real<br/>quantum hardware"]
+        I["Good educational tool for understanding quantum annealing principles"]
+        J["Not a substitute for running on real quantum hardware"]
     end
     
     E --> I
