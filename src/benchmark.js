@@ -195,7 +195,8 @@ function runBinningBenchmark(demos, config) {
 
   // Scale QI parameters with problem size
   // More points + more bins = harder problem = need stronger mixing
-  const problemScale = (numPoints / 100) * (numBins / 6);
+  // Use sqrt scaling to avoid over-mixing at medium difficulty
+  const problemScale = Math.sqrt((numPoints / 100) * (numBins / 6));
   const scaledMixing = Math.min(3000, Math.max(200, Math.round(500 * problemScale)));
   const scaledFinalMixing = Math.min(30, Math.max(2, Math.round(5 * problemScale)));
 
