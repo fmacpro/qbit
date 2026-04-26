@@ -33,71 +33,71 @@ const PRESETS = {
     description: 'Small problems, many trials — validates QI advantage exists (~1min)',
     hospital: {
       numNurses: 5, numDays: 5, trials: 100,
-      saIterations: 1000, qiIterations: 5000, qiReplicas: 8
+      saIterations: 5000, qiIterations: 3000, qiReplicas: 6
     },
     graphColoring: {
-      numVertices: 10, edgeProb: 0.45, maxColors: 3, trials: 100,
-      saIterations: 3000, qiIterations: 8000, qiReplicas: 12
+      numVertices: 10, edgeProb: 0.45, maxColors: 3, trials: 200,
+      saIterations: 5000, qiIterations: 3000, qiReplicas: 8
     },
     binning: {
       numPoints: 100, numClusters: 3, numBins: 6, trials: 100,
-      saIterations: 5000, qiIterations: 5000, qiReplicas: 12
+      saIterations: 5000, qiIterations: 3000, qiReplicas: 8
     },
     customerSeg: {
       numCustomers: 200, numSegments: 3, numTiers: 5, trials: 100,
-      saIterations: 5000, qiIterations: 5000, qiReplicas: 12
+      saIterations: 5000, qiIterations: 3000, qiReplicas: 8
     },
     scheduling: {
-      numEmployees: 5, numShifts: 6, trials: 100,
-      saIterations: 3000, qiIterations: 3000, qiReplicas: 8
+      numEmployees: 5, numShifts: 6, trials: 200,
+      saIterations: 5000, qiIterations: 5000, qiReplicas: 6
     }
   },
   medium: {
     label: 'Medium (Balanced)',
     description: 'Moderate problems, many trials — clear QI advantage (~5min)',
     hospital: {
-      numNurses: 6, numDays: 7, trials: 100,
-      saIterations: 10000, qiIterations: 10000, qiReplicas: 12
+      numNurses: 7, numDays: 7, trials: 100,
+      saIterations: 3000, qiIterations: 10000, qiReplicas: 12
     },
     graphColoring: {
-      numVertices: 14, edgeProb: 0.50, maxColors: 3, trials: 100,
-      saIterations: 10000, qiIterations: 20000, qiReplicas: 16
+      numVertices: 16, edgeProb: 0.50, maxColors: 3, trials: 200,
+      saIterations: 3000, qiIterations: 10000, qiReplicas: 14
     },
     binning: {
-      numPoints: 250, numClusters: 3, numBins: 10, trials: 100,
-      saIterations: 10000, qiIterations: 15000, qiReplicas: 16
+      numPoints: 200, numClusters: 3, numBins: 10, trials: 100,
+      saIterations: 3000, qiIterations: 25000, qiReplicas: 16
     },
     customerSeg: {
-      numCustomers: 350, numSegments: 4, numTiers: 6, trials: 100,
-      saIterations: 10000, qiIterations: 15000, qiReplicas: 16
+      numCustomers: 400, numSegments: 4, numTiers: 6, trials: 100,
+      saIterations: 3000, qiIterations: 10000, qiReplicas: 16
     },
     scheduling: {
-      numEmployees: 6, numShifts: 8, trials: 100,
-      saIterations: 5000, qiIterations: 5000, qiReplicas: 10
+      numEmployees: 10, numShifts: 18, trials: 200,
+      saIterations: 2000, qiIterations: 40000, qiReplicas: 16
     }
   },
   deep: {
     label: 'Deep (Thorough Analysis)',
     description: 'Hard problems, many trials — strong statistical evidence (~15min)',
     hospital: {
-      numNurses: 8, numDays: 7, trials: 100,
-      saIterations: 20000, qiIterations: 30000, qiReplicas: 16
+      numNurses: 10, numDays: 7, trials: 100,
+      saIterations: 2000, qiIterations: 30000, qiReplicas: 20
     },
     graphColoring: {
-      numVertices: 17, edgeProb: 0.50, maxColors: 3, trials: 100,
-      saIterations: 30000, qiIterations: 60000, qiReplicas: 24
+      numVertices: 24, edgeProb: 0.50, maxColors: 3, trials: 200,
+      saIterations: 2000, qiIterations: 30000, qiReplicas: 24
     },
     binning: {
       numPoints: 400, numClusters: 4, numBins: 14, trials: 100,
-      saIterations: 30000, qiIterations: 50000, qiReplicas: 28
+      saIterations: 2000, qiIterations: 50000, qiReplicas: 24
     },
     customerSeg: {
-      numCustomers: 500, numSegments: 5, numTiers: 7, trials: 100,
-      saIterations: 30000, qiIterations: 80000, qiReplicas: 32
+      numCustomers: 600, numSegments: 5, numTiers: 7, trials: 100,
+      saIterations: 2000, qiIterations: 30000, qiReplicas: 24
     },
     scheduling: {
-      numEmployees: 7, numShifts: 12, trials: 100,
-      saIterations: 10000, qiIterations: 10000, qiReplicas: 14
+      numEmployees: 18, numShifts: 30, trials: 200,
+      saIterations: 1500, qiIterations: 200000, qiReplicas: 24
     }
   }
 };
@@ -173,8 +173,8 @@ function runGraphColoringBenchmark(demos, config) {
   // More vertices = harder problem = need stronger mixing
   // Use sqrt scaling to avoid over-mixing at medium difficulty
   const problemScale = Math.sqrt(numVertices / 10);
-  const scaledMixing = Math.min(3000, Math.max(100, Math.round(500 * problemScale)));
-  const scaledFinalMixing = Math.min(50, Math.max(1, Math.round(5 * problemScale)));
+  const scaledMixing = Math.min(5000, Math.max(100, Math.round(800 * problemScale)));
+  const scaledFinalMixing = Math.min(80, Math.max(1, Math.round(8 * problemScale)));
 
   const greedyScores = [];
   const saScores = [];
@@ -211,8 +211,8 @@ function runBinningBenchmark(demos, config) {
   // More points + more bins = harder problem = need stronger mixing
   // Use sqrt scaling to avoid over-mixing at medium difficulty
   const problemScale = Math.sqrt((numPoints / 100) * (numBins / 6));
-  const scaledMixing = Math.min(3000, Math.max(200, Math.round(500 * problemScale)));
-  const scaledFinalMixing = Math.min(30, Math.max(2, Math.round(5 * problemScale)));
+  const scaledMixing = Math.min(5000, Math.max(200, Math.round(800 * problemScale)));
+  const scaledFinalMixing = Math.min(50, Math.max(2, Math.round(8 * problemScale)));
 
   for (let t = 0; t < trials; t++) {
     const data = generateData(numPoints, numClusters);
@@ -292,8 +292,8 @@ function runSchedulingBenchmark(demos, config) {
   // More employees + more shifts = harder problem = need stronger mixing
   // Use sqrt scaling to avoid over-mixing at medium difficulty
   const problemScale = Math.sqrt((numEmployees / 5) * (numShifts / 6));
-  const scaledMixing = Math.min(20, Math.max(0.5, Math.round(3 * problemScale * 10) / 10));
-  const scaledFinalMixing = Math.min(1, Math.max(0.01, Math.round(0.02 * problemScale * 100) / 100));
+  const scaledMixing = Math.min(80, Math.max(2, Math.round(15 * problemScale * 10) / 10));
+  const scaledFinalMixing = Math.min(3, Math.max(0.05, Math.round(0.3 * problemScale * 100) / 100));
 
   const greedyScores = [];
   const saScores = [];

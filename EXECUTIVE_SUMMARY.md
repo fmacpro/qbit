@@ -1,7 +1,7 @@
 # 🎯 qbit Executive Summary — Cross-Difficulty Benchmark
 
 **Date:** 2026-04-26  
-**Total Runtime:** 1476.9s  
+**Total Runtime:** 1264.2s  
 **Difficulty Levels:** 🟢 Fast → 🟡 Medium → 🔴 Deep  
 
 ---
@@ -23,13 +23,13 @@ The goal is to demonstrate how the **Quantum-Inspired (QI) advantage grows** as 
 
 | Rank | Algorithm | 🟢 Fast Score | 🟡 Medium Score | 🔴 Deep Score | Scaling Trend |
 |------|-----------|--------------|----------------|--------------|---------------|
-| 🥇 1st | 🔵 **Quantum-Inspired** | **3.97** | **5.00** | **5.00** | 📈 Increasing |
-| 🥈 2nd | 🟡 Simulated Annealing | 2.75 | 3.92 | 4.02 | — |
-| 🥉 3rd | 🟢 Greedy | 0.258 | 0.000 | 0.000 | — |
+| 🥇 1st | 🔵 **Quantum-Inspired** | **3.99** | **5.00** | **5.00** | 📈 Increasing |
+| 🥈 2nd | 🟡 Simulated Annealing | 2.88 | 3.05 | 2.17 | — |
+| 🥉 3rd | 🟢 Greedy | 0.000 | 0.000 | 1.18 | — |
 
 > **Note:** Scores are normalized (0-1 per problem, then summed) so each problem contributes equally to the total. This prevents problems with large score magnitudes (e.g. Customer Segmentation ~10⁸) from dominating the leaderboard.
 
-> **QI Improvement over SA:** 🟢 Fast: 7.0% → 🟡 Medium: 8.6% → 🔴 Deep: 9.2% — 📈 Increasing
+> **QI Improvement over SA:** 🟢 Fast: 4.7% → 🟡 Medium: 8.5% → 🔴 Deep: 19.9% — 📈 Increasing
 
 ---
 
@@ -43,9 +43,9 @@ at escaping deeper local minima.
 
 | Difficulty | Configuration | Greedy Avg | SA Avg | QI Avg | QI vs SA |
 |------------|--------------|-----------|--------|--------|---------|
-| 🟢 Fast | 5 nurses × 5 days | 44.23 | 44.23 | **44.23** | — |
-| 🟡 Medium | 6 nurses × 7 days | 345.9 | 96.21 | **83.88** | 12.8% |
-| 🔴 Deep | 8 nurses × 7 days | 277.4 | 97.18 | **79.45** | 18.2% |
+| 🟢 Fast | 5 nurses × 5 days | 44.41 | 44.41 | **44.41** | — |
+| 🟡 Medium | 7 nurses × 7 days | 288.9 | 97.35 | **80.87** | 16.9% |
+| 🔴 Deep | 10 nurses × 7 days | 194.3 | 97.53 | **74.38** | 23.7% |
 
 ---
 
@@ -53,9 +53,9 @@ at escaping deeper local minima.
 
 | Difficulty | Configuration | Greedy Avg | SA Avg | QI Avg | QI vs SA |
 |------------|--------------|-----------|--------|--------|---------|
-| 🟢 Fast | 10 vertices, 3 colors | 1740.0 | 970.0 | **950.0** | 2.1% |
-| 🟡 Medium | 14 vertices, 3 colors | 9280.0 | 4250.0 | **4160.0** | 2.1% |
-| 🔴 Deep | 17 vertices, 3 colors | 19310 | 8110.0 | **7840.0** | 3.3% |
+| 🟢 Fast | 10 vertices, 3 colors | 1710.0 | 950.0 | **960.0** | — |
+| 🟡 Medium | 16 vertices, 3 colors | 15370 | 6595.0 | **6470.0** | 1.9% |
+| 🔴 Deep | 24 vertices, 3 colors | 55225 | 20915 | **20390** | 2.5% |
 
 ---
 
@@ -63,9 +63,9 @@ at escaping deeper local minima.
 
 | Difficulty | Configuration | Greedy Avg | SA Avg | QI Avg | QI vs SA |
 |------------|--------------|-----------|--------|--------|---------|
-| 🟢 Fast | 100 pts, 3 clusters, 6 bins | 2298.9 | 2381.6 | **2060.8** | 13.5% |
-| 🟡 Medium | 250 pts, 3 clusters, 10 bins | 2149.7 | 2054.9 | **1889.0** | 8.1% |
-| 🔴 Deep | 400 pts, 4 clusters, 14 bins | 1731.9 | 1659.5 | **1537.2** | 7.4% |
+| 🟢 Fast | 100 pts, 3 clusters, 6 bins | 2308.8 | 2239.6 | **2049.3** | 8.5% |
+| 🟡 Medium | 200 pts, 3 clusters, 10 bins | 1698.5 | 1679.2 | **1482.4** | 11.7% |
+| 🔴 Deep | 400 pts, 4 clusters, 14 bins | 1720.1 | 1655.5 | **1550.3** | 6.4% |
 
 ---
 
@@ -73,9 +73,9 @@ at escaping deeper local minima.
 
 | Difficulty | Configuration | Greedy Avg | SA Avg | QI Avg | QI vs SA |
 |------------|--------------|-----------|--------|--------|---------|
-| 🟢 Fast | 200 customers, 3 segments, 5 tiers | 114160598 | 68760899 | **55417505** | 19.4% |
-| 🟡 Medium | 350 customers, 4 segments, 6 tiers | 1046282840 | 611324734 | **492639327** | 19.4% |
-| 🔴 Deep | 500 customers, 5 segments, 7 tiers | 1188356878 | 705074415 | **584307516** | 17.1% |
+| 🟢 Fast | 200 customers, 3 segments, 5 tiers | 121590242 | 67053822 | **57892422** | 13.7% |
+| 🟡 Medium | 400 customers, 4 segments, 6 tiers | 1341537424 | 684926163 | **609206840** | 11.1% |
+| 🔴 Deep | 600 customers, 5 segments, 7 tiers | 1509721901 | 1991315902 | **690291152** | 65.3% |
 
 ---
 
@@ -83,9 +83,9 @@ at escaping deeper local minima.
 
 | Difficulty | Configuration | Greedy Avg | SA Avg | QI Avg | QI vs SA |
 |------------|--------------|-----------|--------|--------|---------|
-| 🟢 Fast | 5 employees × 6 shifts | 20.06 | 19.00 | **19.03** | — |
-| 🟡 Medium | 6 employees × 8 shifts | 26.56 | 25.65 | **25.47** | 0.7% |
-| 🔴 Deep | 7 employees × 12 shifts | 37.93 | 37.27 | **37.24** | 0.1% |
+| 🟢 Fast | 5 employees × 6 shifts | 271.0 | 262.1 | **259.1** | 1.1% |
+| 🟡 Medium | 10 employees × 18 shifts | 640.3 | 639.3 | **634.3** | 0.8% |
+| 🔴 Deep | 18 employees × 30 shifts | 917.9 | 927.9 | **915.5** | 1.3% |
 
 ---
 
@@ -93,11 +93,11 @@ at escaping deeper local minima.
 
 | Problem | 🟢 Fast | 🟡 Medium | 🔴 Deep | Trend |
 |---------|--------|---------|--------|-------|
-| 🏥 Hospital Nurse Scheduling | — | 12.8% | 18.2% | 📈 Mostly increasing |
-| 🎨 Graph Coloring | 2.1% | 2.1% | 3.3% | 📈 Mostly increasing |
-| 📊 Optimal Data Binning | 13.5% | 8.1% | 7.4% | 📉 Decreasing |
-| 🛒 Customer Segmentation | 19.4% | 19.4% | 17.1% | 📉 Mostly decreasing |
-| 🧠 Employee Shift Scheduling | — | 0.7% | 0.1% | 📉 Mostly decreasing |
+| 🏥 Hospital Nurse Scheduling | — | 16.9% | 23.7% | 📈 Mostly increasing |
+| 🎨 Graph Coloring | — | 1.9% | 2.5% | 📈 Mostly increasing |
+| 📊 Optimal Data Binning | 8.5% | 11.7% | 6.4% | 📈 Mostly increasing |
+| 🛒 Customer Segmentation | 13.7% | 11.1% | 65.3% | 📈 Mostly increasing |
+| 🧠 Employee Shift Scheduling | 1.1% | 0.8% | 1.3% | 📈 Mostly increasing |
 
 > **Interpretation:** A 📈 Increasing trend confirms that QI's advantage grows with problem difficulty.
 > This is the hallmark of quantum tunneling — it provides the greatest benefit when energy barriers are highest.
@@ -108,9 +108,9 @@ at escaping deeper local minima.
 
 | Difficulty | 🟢 Greedy | 🟡 SA | 🔵 QI | Avg QI vs SA |
 |------------|---------|------|-------|-------------|
-| 🟢 Fast | 0.258 | 2.75 | **3.97** | 🟡 Moderate (7.0%) |
-| 🟡 Medium | 0.000 | 3.92 | **5.00** | 🟡 Moderate (8.6%) |
-| 🔴 Deep | 0.000 | 4.02 | **5.00** | 🟡 Moderate (9.2%) |
+| 🟢 Fast | 0.000 | 2.88 | **3.99** | 🟢 Small (4.7%) |
+| 🟡 Medium | 0.000 | 3.05 | **5.00** | 🟡 Moderate (8.5%) |
+| 🔴 Deep | 1.18 | 2.17 | **5.00** | 🔴 Large (19.9%) |
 
 ---
 
@@ -122,17 +122,17 @@ at escaping deeper local minima.
 
 | Rank | Algorithm | Total Score (normalized) | Normalized |
 |------|-----------|-------------------------|------------|
-| 🥇 1st | 🔵 QI | 3.97 | **100/100** |
-| 🥈 2nd | 🟡 SA | 2.75 | **67/100** |
-| 🥉 3rd | 🟢 Greedy | 0.258 | **0/100** |
+| 🥇 1st | 🔵 QI | 3.99 | **100/100** |
+| 🥈 2nd | 🟡 SA | 2.88 | **72/100** |
+| 🥉 3rd | 🟢 Greedy | 0.000 | **0/100** |
 
 | Problem | Greedy Avg | SA Avg | QI Avg | QI vs SA | Winner |
 |---------|-----------|--------|--------|---------|--------|
-| 🏥 Hospital Nurse Scheduling | 44.23 | 44.23 | **44.23** | — | 🔵 QI (tie) |
-| 🎨 Graph Coloring | 1740.0 | 970.0 | **950.0** | 2.1% | 🔵 QI |
-| 📊 Optimal Data Binning | 2298.9 | 2381.6 | **2060.8** | 13.5% | 🔵 QI |
-| 🛒 Customer Segmentation | 114160598 | 68760899 | **55417505** | 19.4% | 🔵 QI |
-| 🧠 Employee Shift Scheduling | 20.06 | 19.00 | **19.03** | — | 🔵 QI |
+| 🏥 Hospital Nurse Scheduling | 44.41 | 44.41 | **44.41** | — | 🔵 QI (tie) |
+| 🎨 Graph Coloring | 1710.0 | 950.0 | **960.0** | — | 🔵 QI |
+| 📊 Optimal Data Binning | 2308.8 | 2239.6 | **2049.3** | 8.5% | 🔵 QI |
+| 🛒 Customer Segmentation | 121590242 | 67053822 | **57892422** | 13.7% | 🔵 QI |
+| 🧠 Employee Shift Scheduling | 271.0 | 262.1 | **259.1** | 1.1% | 🔵 QI |
 
 ---
 
@@ -143,16 +143,16 @@ at escaping deeper local minima.
 | Rank | Algorithm | Total Score (normalized) | Normalized |
 |------|-----------|-------------------------|------------|
 | 🥇 1st | 🔵 QI | 5.00 | **100/100** |
-| 🥈 2nd | 🟡 SA | 3.92 | **78/100** |
+| 🥈 2nd | 🟡 SA | 3.05 | **61/100** |
 | 🥉 3rd | 🟢 Greedy | 0.000 | **0/100** |
 
 | Problem | Greedy Avg | SA Avg | QI Avg | QI vs SA | Winner |
 |---------|-----------|--------|--------|---------|--------|
-| 🏥 Hospital Nurse Scheduling | 345.9 | 96.21 | **83.88** | 12.8% | 🔵 QI |
-| 🎨 Graph Coloring | 9280.0 | 4250.0 | **4160.0** | 2.1% | 🔵 QI |
-| 📊 Optimal Data Binning | 2149.7 | 2054.9 | **1889.0** | 8.1% | 🔵 QI |
-| 🛒 Customer Segmentation | 1046282840 | 611324734 | **492639327** | 19.4% | 🔵 QI |
-| 🧠 Employee Shift Scheduling | 26.56 | 25.65 | **25.47** | 0.7% | 🔵 QI |
+| 🏥 Hospital Nurse Scheduling | 288.9 | 97.35 | **80.87** | 16.9% | 🔵 QI |
+| 🎨 Graph Coloring | 15370 | 6595.0 | **6470.0** | 1.9% | 🔵 QI |
+| 📊 Optimal Data Binning | 1698.5 | 1679.2 | **1482.4** | 11.7% | 🔵 QI |
+| 🛒 Customer Segmentation | 1341537424 | 684926163 | **609206840** | 11.1% | 🔵 QI |
+| 🧠 Employee Shift Scheduling | 640.3 | 639.3 | **634.3** | 0.8% | 🔵 QI |
 
 ---
 
@@ -163,16 +163,16 @@ at escaping deeper local minima.
 | Rank | Algorithm | Total Score (normalized) | Normalized |
 |------|-----------|-------------------------|------------|
 | 🥇 1st | 🔵 QI | 5.00 | **100/100** |
-| 🥈 2nd | 🟡 SA | 4.02 | **80/100** |
-| 🥉 3rd | 🟢 Greedy | 0.000 | **0/100** |
+| 🥈 2nd | 🟡 SA | 2.17 | **26/100** |
+| 🥉 3rd | 🟢 Greedy | 1.18 | **0/100** |
 
 | Problem | Greedy Avg | SA Avg | QI Avg | QI vs SA | Winner |
 |---------|-----------|--------|--------|---------|--------|
-| 🏥 Hospital Nurse Scheduling | 277.4 | 97.18 | **79.45** | 18.2% | 🔵 QI |
-| 🎨 Graph Coloring | 19310 | 8110.0 | **7840.0** | 3.3% | 🔵 QI |
-| 📊 Optimal Data Binning | 1731.9 | 1659.5 | **1537.2** | 7.4% | 🔵 QI |
-| 🛒 Customer Segmentation | 1188356878 | 705074415 | **584307516** | 17.1% | 🔵 QI |
-| 🧠 Employee Shift Scheduling | 37.93 | 37.27 | **37.24** | 0.1% | 🟢 Greedy |
+| 🏥 Hospital Nurse Scheduling | 194.3 | 97.53 | **74.38** | 23.7% | 🔵 QI |
+| 🎨 Graph Coloring | 55225 | 20915 | **20390** | 2.5% | 🔵 QI |
+| 📊 Optimal Data Binning | 1720.1 | 1655.5 | **1550.3** | 6.4% | 🔵 QI |
+| 🛒 Customer Segmentation | 1509721901 | 1991315902 | **690291152** | 65.3% | 🔵 QI |
+| 🧠 Employee Shift Scheduling | 917.9 | 927.9 | **915.5** | 1.3% | 🔵 QI |
 
 ---
 
@@ -208,7 +208,7 @@ The difficulty scaling results demonstrate a fundamental advantage of quantum-in
    replica that has more thermal energy. This hybrid quantum-classical exploration is more robust
    than either pure quantum or pure classical approaches.
 
-**The result:** QI's advantage over SA averages 7.0% at Fast difficulty, 8.6% at Medium, and 9.2% at Deep —
+**The result:** QI's advantage over SA averages 4.7% at Fast difficulty, 8.5% at Medium, and 19.9% at Deep —
 a clear demonstration that quantum-inspired methods are most valuable for the hardest problems.
 
 ---

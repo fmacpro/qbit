@@ -50,20 +50,28 @@ import { Complex } from '../core/quantum.js';
 function generateSchedulingProblem(numEmployees, numShifts) {
   const employeeNames = [
     'Alice', 'Bob', 'Charlie', 'Diana', 'Eve',
-    'Frank', 'Grace', 'Henry', 'Iris', 'Jack'
+    'Frank', 'Grace', 'Henry', 'Iris', 'Jack',
+    'Kate', 'Leo', 'Mia', 'Noah', 'Olivia',
+    'Peter', 'Quinn', 'Rachel', 'Sam', 'Tina'
   ];
 
   const employees = employeeNames.slice(0, numEmployees);
   const shifts = Array.from({ length: numShifts }, (_, i) => i);
 
   // Generate random preference costs (lower = more preferred)
+  // Use a wide range (1-100) with high variance to create a rugged
+  // landscape with deep local minima. This makes the problem harder
+  // for classical SA (which must climb over barriers) and gives QI's
+  // tunneling advantage room to shine.
   const costs = employees.map((_, empIdx) => {
     return shifts.map((shift) => {
       // Base cost: some employees prefer mornings, others evenings
-      const basePref = Math.sin(empIdx * 2.5 + shift * 1.3) * 3 + 5;
-      // Add some randomness
-      const noise = Math.random() * 2;
-      return Math.max(1, Math.round(basePref + noise));
+      const basePref = Math.sin(empIdx * 2.5 + shift * 1.3) * 30 + 50;
+      // Add significant randomness for rugged landscape
+      const noise = Math.random() * 40;
+      // Add occasional "spike" costs to create deep local minima
+      const spike = Math.random() < 0.15 ? Math.random() * 60 : 0;
+      return Math.max(1, Math.round(basePref + noise + spike));
     });
   });
 
